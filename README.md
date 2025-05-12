@@ -37,6 +37,14 @@ A secure file sharing portal built with Flask that allows users to upload files 
 
 ## Changelog
 
+### v1.1 (2025-05-12)
+- Added file deletion functionality
+- Improved QR code display with modal popup
+- Enhanced responsive design for all devices
+- Improved UI/UX with better visual feedback
+- Added confirmation dialog for file deletion
+- Fixed mobile layout issues
+
 ### v1.0 (2025-05-12)
 
 Initial release with the following features:

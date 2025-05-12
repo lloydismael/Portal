@@ -126,9 +126,31 @@ def upload_file():
 def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+@app.route('/delete/<int:file_id>')
+@login_required
+def delete_file(file_id):
+    file = File.query.get_or_404(file_id)
+    if file.user_id != current_user.id:
+        flash('Unauthorized to delete this file')
+        return redirect(url_for('dashboard'))
+    
+    # Delete the physical files
+    try:
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file.qr_code))
+    except OSError:
+        pass  # Files might not exist
+    
+    # Delete database entry
+    db.session.delete(file)
+    db.session.commit()
+    
+    flash('File deleted successfully')
+    return redirect(url_for('dashboard'))
+
 @app.route('/qr/<filename>')
 def show_qr(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], f"qr-{filename}.png")
+    return send_from_directory(app.config['UPLOAD_FOLDER'], f"qr-{filename}.png", as_attachment=False)
 
 @app.route('/logout')
 @login_required
