@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-container">
+    <h1>Welcome to File Portal</h1>
+    <p>A secure way to transfer files using QR codes</p>
+    {% if not current_user.is_authenticated %}
+    <div style="margin-top: 2rem;">
+        <a href="{{ url_for('login') }}" class="btn">Login</a>
+        <a href="{{ url_for('register') }}" class="btn" style="margin-left: 1rem;">Register</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
